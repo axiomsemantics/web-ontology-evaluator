@@ -1,13 +1,13 @@
 import {
   ArrowLeft, ArrowRight, BookOpenCheck, Check, CircleAlert, ExternalLink,
-  FileText, GitBranch, LoaderCircle, Mail, RefreshCw, ShieldCheck, Sparkles, Trash2,
+  FileText, GitBranch, Linkedin, LoaderCircle, Mail, RefreshCw, ShieldCheck, Sparkles, Trash2,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { FileDropzone } from "./components/common/FileDropzone";
 import { Stepper } from "./components/common/Stepper";
 import { Gauge } from "./components/visualizations/Gauge";
 import { WordCloud } from "./components/visualizations/WordCloud";
-import { AXIOM_WEBSITE, createContactMailto } from "./config/contact";
+import { AXIOM_WEBSITE, createContactMailto, LINKEDIN_PROFILE } from "./config/contact";
 import { extractPdfText } from "./features/documents/pdfExtractor";
 import { runAssessment } from "./features/assessment/assessmentService";
 import type { AssessmentResult, GoalId, TermResult } from "./features/assessment/assessmentTypes";
@@ -115,7 +115,12 @@ function App() {
       <main>
         <div className="pageTop">
           <Stepper current={step} />
-          {step === 1 && <Objectives goals={goals} toggle={toggleGoal} onContinue={() => setStep(2)} />}
+          {step === 1 && (
+            <>
+              <Objectives goals={goals} toggle={toggleGoal} onContinue={() => setStep(2)} />
+              <Upsell />
+            </>
+          )}
           {step === 2 && (
             <FilesStep
               goals={goals} ontology={ontology} documents={documents} error={error} status={status} running={running}
@@ -306,12 +311,6 @@ function shortIri(iri: string) {
 function Upsell() {
   const [replyEmail, setReplyEmail] = useState("");
   const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyEmail);
-  const openGeneralEmail = () => {
-    window.location.href = createContactMailto(
-      "Specialized ontology assessment",
-      "Hello Axiom Semantics,\n\nI would like to learn more about your specialized ontology assessment services.",
-    );
-  };
   return (
     <section className="upsell">
       <div className="upsellIntro">
@@ -319,7 +318,6 @@ function Upsell() {
         <p>For a more detailed evaluation of your ontology-based knowledge graph project, contact Axiom Semantics.</p>
         <div className="contactLinks">
           <a href={AXIOM_WEBSITE} target="_blank" rel="noreferrer">Visit Axiom Semantics <ExternalLink size={15} /></a>
-          <button type="button" onClick={openGeneralEmail}><Mail size={15} /> Email Axiom</button>
         </div>
       </div>
       <ul><li>In-company training for data specialists and project managers</li><li>Knowledge Graph strategy for AI projects</li><li>KPIs and quality metrics tailored to each project</li><li>Research-backed methodologies for ontology evaluation</li></ul>
@@ -332,11 +330,17 @@ function Upsell() {
           );
         }
       }}>
-        <h3>Prefer that we contact you?</h3><p>Enter your reply address. We will open your email client with a structured message that you can complete and review before sending.</p>
+        <h3>Ready to take your ontology project further?</h3>
+        <a className="linkedinContact" href={LINKEDIN_PROFILE} target="_blank" rel="noreferrer">
+          <span className="linkedinIcon"><Linkedin size={18} /></span>
+          <span><strong>Reach out on LinkedIn</strong><small>Connect with Rafael Humann Petry</small></span>
+          <ExternalLink size={15} />
+        </a>
+        <div className="contactDivider"><span>or continue by email</span></div>
         <label htmlFor="reply-email">Your email address</label>
         <input id="reply-email" type="email" autoComplete="email" placeholder="you@company.com" value={replyEmail} onChange={(event) => setReplyEmail(event.target.value)} aria-describedby="email-hint" />
-        <small id="email-hint">Your address is not stored or sent automatically. By pressing “Open email request,” you consent to include it in the prepared message.</small>
-        <button className="lightButton" disabled={!validEmail}><Mail size={16} /> Open email request</button>
+        <small id="email-hint">Your address stays in your browser and is only added to the draft email.</small>
+        <button className="lightButton" disabled={!validEmail}><Mail size={16} /> Open email draft</button>
       </form>
     </section>
   );

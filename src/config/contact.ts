@@ -1,4 +1,5 @@
 export const AXIOM_WEBSITE = "https://axiomsemantics.com.br";
+export const LINKEDIN_PROFILE = "https://www.linkedin.com/in/rafael-humann-petry/";
 
 // Kept out of the rendered HTML and assembled only after a user interaction.
 // This discourages basic email harvesters; determined JavaScript-aware crawlers
