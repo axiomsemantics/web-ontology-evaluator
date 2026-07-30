@@ -111,7 +111,10 @@ function App() {
 
   return (
     <div className="appShell">
-      <Header />
+      <Header onHome={() => {
+        reset();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }} />
       <main>
         <div className="pageTop">
           <Stepper current={step} />
@@ -136,10 +139,13 @@ function App() {
   );
 }
 
-function Header() {
+function Header({ onHome }: { onHome: () => void }) {
   return (
     <header className="siteHeader">
-      <a className="brand" href="#" aria-label="Axiom Ontology Assessment home">
+      <a className="brand" href="#" aria-label="Start a new Axiom Ontology Assessment" onClick={(event) => {
+        event.preventDefault();
+        onHome();
+      }}>
         <span><b>Axiom Semantics</b><small>Ontology Assessment</small></span>
       </a>
       <div className="privacyPill"><ShieldCheck size={16} /> 100% browser-based</div>
@@ -345,7 +351,7 @@ function Upsell() {
 }
 
 function Footer() {
-  return <footer><div><span>Axiom Ontology Assessment</span><span>Initial insight. Local processing. Better questions.</span></div><a href={AXIOM_WEBSITE} target="_blank" rel="noreferrer">axiomsemantics.com.br</a></footer>;
+  return <footer><div><span>Axiom Ontology Assessment</span><span>Powered by <a href={AXIOM_WEBSITE} target="_blank" rel="noreferrer">Axiom Semantics</a></span></div></footer>;
 }
 
 export default App;
