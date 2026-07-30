@@ -150,7 +150,6 @@ function Header() {
 function Objectives({ goals, toggle, onContinue }: { goals: Set<GoalId>; toggle: (id: GoalId) => void; onContinue: () => void }) {
   return (
     <section className="stepSection">
-      <div className="eyebrow">Start your assessment</div>
       <h1>What do you need in your ontology project?</h1>
       <p className="lead">Select one or more priorities. We will tailor the assessment to your project goals.</p>
       <div className="goalGrid">
@@ -182,7 +181,6 @@ function FilesStep(props: FilesProps) {
   const canRun = props.ontology && (!props.goals.has("alignment") || props.documents.length > 0);
   return (
     <section className="stepSection filesStep">
-      <div className="eyebrow">Files stay on this device</div>
       <h1>Add your project files</h1>
       <p className="lead">We parse and assess everything in your browser. Remote ontology imports are never downloaded.</p>
       <div className="uploadLayout">
@@ -228,7 +226,7 @@ function FileRow({ file, type, onRemove }: { file: File; type: string; onRemove:
 function Results({ goals, result, reset }: { goals: Set<GoalId>; result: AssessmentResult; reset: () => void }) {
   return (
     <section className="stepSection results">
-      <div className="resultsHero"><div><div className="eyebrow"><Check size={15} /> Assessment complete</div><h1>Basic ontology assessments</h1><p className="lead">{result.ontologyName} · completed locally in {(result.durationMs / 1000).toFixed(2)} seconds</p></div><button className="secondaryButton" onClick={reset}><RefreshCw size={16} /> New assessment</button></div>
+      <div className="resultsHero"><div><h1>Basic ontology assessments</h1><p className="lead">{result.ontologyName} · completed locally in {(result.durationMs / 1000).toFixed(2)} seconds</p></div><button className="secondaryButton" onClick={reset}><RefreshCw size={16} /> New assessment</button></div>
       <div className="statGrid">
         {[["Triples", result.tripleCount], ["Classes", result.classCount], ["Properties", result.propertyCount], ["Named entities", result.namedEntityCount]].map(([label, value]) => <div className="stat" key={label}><strong>{value}</strong><span>{label}</span></div>)}
       </div>
